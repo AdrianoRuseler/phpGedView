@@ -1,5 +1,5 @@
 # Use official PHP image with Apache
-FROM php:8.1-apache
+FROM php:7.4-apache
 
 # Install system dependencies, PHP extensions, subversion, rsync, and SQLite
 RUN apt-get update && apt-get install -y \
@@ -42,7 +42,8 @@ RUN mkdir -p /var/www/html/PhpGedView/data \
     && touch /var/www/html/PhpGedView/data/phpgedview.sqlite \
     && chown www-data:www-data /var/www/html/PhpGedView/data/phpgedview.sqlite \
     && chmod 644 /var/www/html/PhpGedView/data/phpgedview.sqlite
-
+# 	&& chmod -R 755 /var/www/html/PhpGedView/data
+	
 # Set Apache document root to the PhpGedView directory
 ENV APACHE_DOCUMENT_ROOT /var/www/html/PhpGedView
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf \
@@ -50,6 +51,13 @@ RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-av
 
 # Copy custom php.ini (optional, for configuration tweaks)
 COPY ./php.ini /usr/local/etc/php/php.ini
+
+COPY ./config.php /var/www/html/PhpGedView/config.php
+RUN chown www-data:www-data /var/www/html/PhpGedView/config.php
+RUN chmod 644 /var/www/html/PhpGedView/config.php
+
+# Add health check script
+COPY ./healthcheck.php /var/www/html/PhpGedView/healthcheck.php
 
 # Expose port 80 for Apache
 EXPOSE 80

@@ -6,13 +6,4 @@ services:
     ports:
       - "8080:80"
     volumes:
-      - ./data:/var/www/html/PhpGedView/data  # Persistent storage for SQLite database
-
-  adminer:
-    image: adminer:4.8.1  # Official Adminer image
-    ports:
-      - "8081:8080"  # Adminer runs on port 8080 internally, mapped to 8081 externally
-    volumes:
-      - ./data:/var/www/html/PhpGedView/data  # Share the same volume to access SQLite file
-    depends_on:
-      - web  # Ensure phpGedView container starts first to create the SQLite file
+      - .data:/var/www/html/PhpGedView/data  # Persistent storage for SQLite database
