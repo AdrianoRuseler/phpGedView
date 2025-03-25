@@ -44,9 +44,9 @@ RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-av
 # Copy custom php.ini (optional, for configuration tweaks)
 COPY ./php.ini /usr/local/etc/php/php.ini
 
-COPY ./config.php /var/www/html/PhpGedView/data/config.php
-RUN chown www-data:www-data /var/www/html/PhpGedView/data/config.php
-RUN chmod 644 /var/www/html/PhpGedView/data/config.php
+COPY ./config.php /var/www/html/PhpGedView/config.php
+RUN chown www-data:www-data /var/www/html/PhpGedView/config.php
+RUN chmod 644 /var/www/html/PhpGedView/config.php
 
 # Expose port 80 for Apache
 EXPOSE 80
