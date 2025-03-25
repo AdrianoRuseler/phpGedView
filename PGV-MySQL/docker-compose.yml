@@ -1,0 +1,37 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    volumes:
+      - ./data:/var/www/html/PhpGedView/data  # Persistent storage for phpGedView data (not database)
+    depends_on:
+      - db
+    environment:
+      - MYSQL_HOST=db
+      - MYSQL_DATABASE=phpgedview
+      - MYSQL_USER=phpgedview_user
+      - MYSQL_PASSWORD=your_secure_password
+
+  db:
+    image: mysql:8.0  # Using MySQL 8.0
+    command: --default-authentication-plugin=mysql_native_password  # Compatibility with older clients
+    environment:
+      MYSQL_ROOT_PASSWORD: your_root_password
+      MYSQL_DATABASE: phpgedview
+      MYSQL_USER: phpgedview_user
+      MYSQL_PASSWORD: your_secure_password
+    volumes:
+      - mysql_data:/var/lib/mysql  # Persistent storage for MySQL data
+
+  adminer:
+    image: adminer:latest
+    ports:
+      - "8081:8080"
+    depends_on:
+      - db
+
+volumes:
+  mysql_data:
