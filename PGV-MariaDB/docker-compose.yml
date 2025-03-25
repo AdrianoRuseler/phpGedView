@@ -1,0 +1,34 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    volumes:
+      - ./data:/var/www/html/PhpGedView/data  # Adjusted to match new document root
+    depends_on:
+      - db
+    environment:
+      - DB_HOST=db
+      - DB_NAME=phpgedview
+      - DB_USER=phpgedview_user
+      - DB_PASS=your_secure_password
+
+  db:
+    image: mariadb:10.9
+    environment:
+      MYSQL_ROOT_PASSWORD: your_root_password
+      MYSQL_DATABASE: phpgedview
+      MYSQL_USER: phpgedview_user
+      MYSQL_PASSWORD: your_secure_password
+    volumes:
+      - db_data:/var/lib/mysql  # Persistent storage for MariaDB data
+  adminer:
+    image: adminer:latest
+    ports:
+      - "8081:8080"
+    depends_on:
+      - db
+volumes:
+  db_data:
