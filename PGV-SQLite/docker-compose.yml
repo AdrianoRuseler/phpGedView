@@ -6,4 +6,7 @@ services:
     ports:
       - "8080:80"
     volumes:
-      - .data:/var/www/html/PhpGedView/data  # Persistent storage for SQLite database
+      - phpgedview-data:/var/www/html/data  # Persists the SQLite database and data directory
+volumes:
+  phpgedview-data:
+    driver: local
