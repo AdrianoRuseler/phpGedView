@@ -28,7 +28,7 @@ WORKDIR /tmp
 
 # Configure SVN timeout and checkout phpGedView folder
 RUN echo "[global]" > /etc/subversion/servers \
-    && echo "http-timeout = 6000" >> /etc/subversion/servers \
+    && echo "http-timeout = 8000" >> /etc/subversion/servers \
     && svn checkout https://svn.code.sf.net/p/phpgedview/svn/trunk/phpGedView/ phpgedview-checkout \
     && mkdir -p /var/www/html/PhpGedView \
     && rsync -a phpgedview-checkout/ /var/www/html/PhpGedView \
